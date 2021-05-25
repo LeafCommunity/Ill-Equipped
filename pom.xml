@@ -70,6 +70,20 @@
             <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <!-- ArmorEquipEvent (via jitpack) -->
+        <!-- https://github.com/Arnuh/ArmorEquipEvent -->
+        <!-- https://jitpack.io/#Arnuh/ArmorEquipEvent -->
+        <dependency>
+	        <groupId>com.github.Arnuh</groupId>
+            <artifactId>ArmorEquipEvent</artifactId>
+            <version>1.7.6</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <!-- Config Values (via jitpack) -->
         <dependency>
             <groupId>community.leaf</groupId>
@@ -126,6 +140,11 @@
                 </executions>
                 <configuration>
                     <relocations>
+                        <!-- ArmorEquipEvent -->
+                        <relocation>
+                            <pattern>com.codingforcookies</pattern>
+                            <shadedPattern>${shade.relocation}.com.codingforcookies</shadedPattern>
+                        </relocation>
                         <!-- Config Values -->
                         <relocation>
                             <pattern>community.leaf.configvalues</pattern>

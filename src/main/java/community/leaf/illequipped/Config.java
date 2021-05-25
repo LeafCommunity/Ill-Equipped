@@ -20,17 +20,14 @@ public class Config extends YamlDataFile
     public static final YamlValue<String> VERSION =
         YamlValue.ofString("ill-equipped.config.version").maybe();
     
-    public static final DefaultYamlValue<Long> RATE =
-        YamlValue.ofLong("ill-equipped.detection.data-expiration-ticks").defaults(20L);
-    
     public static final DefaultYamlValue<Integer> CANCEL_THRESHOLD =
-        YamlValue.ofInteger("ill-equipped.actions.cancel-event.threshold").defaults(10);
+        YamlValue.ofInteger("ill-equipped.actions.cancel-event.threshold").defaults(15);
     
     public static final DefaultYamlValue<Boolean> LOG_IF_CANCELLED =
         YamlValue.ofBoolean("ill-equipped.actions.cancel-event.log-to-console").defaults(true);
     
     public static final DefaultYamlValue<Integer> PUNISH_THRESHOLD =
-        YamlValue.ofInteger("ill-equipped.actions.punish.threshold").defaults(100);
+        YamlValue.ofInteger("ill-equipped.actions.punish.threshold").defaults(50);
     
     public static final DefaultYamlValue<Boolean> NOTIFY_STAFF_IF_PUNISHED =
         YamlValue.ofBoolean("ill-equipped.actions.punish.notify-staff").defaults(true);
@@ -38,6 +35,9 @@ public class Config extends YamlDataFile
     public static final DefaultYamlValue<List<String>> PUNISHMENT_COMMANDS =
         YamlValue.ofStringList("ill-equipped.actions.punish.punishment")
             .defaults(List.of("ban %player% Attempted to crash clients"));
+    
+    public static final DefaultYamlValue<Long> RATE =
+        YamlValue.ofLong("ill-equipped.advanced.data-expiration-ticks").defaults(20L);
     
     @Aggregated.Result
     private static final List<YamlValue<?>> VALUES =

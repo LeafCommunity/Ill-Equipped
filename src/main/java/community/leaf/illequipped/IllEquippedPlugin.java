@@ -7,14 +7,18 @@
  */
 package community.leaf.illequipped;
 
+import com.codingforcookies.armorequip.ArmorListener;
+import community.leaf.illequipped.listeners.EquipCounterListener;
 import community.leaf.tasks.bukkit.BukkitTaskSource;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.tlinkowski.annotation.basic.NullOr;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public class IllEquippedPlugin extends JavaPlugin implements BukkitTaskSource
 {
@@ -35,7 +39,10 @@ public class IllEquippedPlugin extends JavaPlugin implements BukkitTaskSource
         this.config = new Config(this);
         this.equips = new EquipData(this);
         
-        getServer().getPluginManager().registerEvents(new EquipListener(this), this);
+        PluginManager plugins = getServer().getPluginManager();
+        
+        plugins.registerEvents(new ArmorListener(List.of()), this);
+        plugins.registerEvents(new EquipCounterListener(this), this);
         
         sync().every(1).ticks().forever().run(equips::tick);
     }

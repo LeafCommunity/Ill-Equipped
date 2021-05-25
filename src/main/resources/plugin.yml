@@ -6,3 +6,11 @@ api-version: 1.13
 author: RezzedUp
 website: ${project.url}
 description: ${project.description}
+
+permissions:
+  ill-equipped.manage:
+    default: op
+    children:
+      ill-equipped.notify: true
+  ill-equipped.notify:
+    default: op

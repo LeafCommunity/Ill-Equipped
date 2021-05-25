@@ -5,8 +5,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package community.leaf.illequipped;
+package community.leaf.illequipped.listeners;
 
+import com.codingforcookies.armorequip.ArmorEquipEvent;
+import community.leaf.illequipped.Config;
+import community.leaf.illequipped.EquipData;
+import community.leaf.illequipped.IllEquippedPlugin;
+import community.leaf.illequipped.Status;
+import community.leaf.illequipped.events.EquipExploitPunishEvent;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -17,7 +23,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
@@ -28,7 +33,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-public class EquipListener implements Listener
+public class EquipCounterListener implements Listener
 {
     private static final Set<Material> ARMOR;
     
@@ -61,12 +66,23 @@ public class EquipListener implements Listener
     
     private final IllEquippedPlugin plugin;
     
-    public EquipListener(IllEquippedPlugin plugin) { this.plugin = plugin; }
+    public EquipCounterListener(IllEquippedPlugin plugin) { this.plugin = plugin; }
     
     @EventHandler
     public void onQuit(PlayerQuitEvent event)
     {
         plugin.equips().remove(event.getPlayer());
+    }
+    
+    @EventHandler
+    public void onPunish(EquipExploitPunishEvent event)
+    {
+        ConsoleCommandSender console = plugin.getServer().getConsoleSender();
+        
+        for (String command : plugin.config().getOrDefault(Config.PUNISHMENT_COMMANDS))
+        {
+            plugin.getServer().dispatchCommand(console, command.replace("%player%", event.getPlayer().getName()));
+        }
     }
     
     private void evaluate(Cancellable event, Player player)
@@ -109,16 +125,12 @@ public class EquipListener implements Listener
                 plugin.getServer().getOnlinePlayers().stream()
                     .filter(p -> p.hasPermission(IllEquippedPlugin.NOTIFICATION_PERMISSION))
                     .forEach(p -> p.spigot().sendMessage(message));
-            }
-            
-            ConsoleCommandSender console = plugin.getServer().getConsoleSender();
-            
-            for (String command : plugin.config().getOrDefault(Config.PUNISHMENT_COMMANDS))
-            {
-                plugin.getServer().dispatchCommand(console, command.replace("%player%", player.getName()));
+                
+                plugin.getServer().getConsoleSender().spigot().sendMessage(message);
             }
             
             counter.currentTick().designate(Status.PUNISHED);
+            plugin.getServer().getPluginManager().callEvent(new EquipExploitPunishEvent(player, counter));
         }
     }
     
@@ -132,8 +144,8 @@ public class EquipListener implements Listener
     }
     
     @EventHandler
-    public void onArmorEquip(InventoryMoveItemEvent event)
+    public void onArmorEquip(ArmorEquipEvent event)
     {
-        //event.get
+        evaluate(event, event.getPlayer());
     }
 }
