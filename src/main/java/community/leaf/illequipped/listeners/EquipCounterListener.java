@@ -11,6 +11,7 @@ import com.codingforcookies.armorequip.ArmorEquipEvent;
 import community.leaf.illequipped.Config;
 import community.leaf.illequipped.EquipData;
 import community.leaf.illequipped.IllEquippedPlugin;
+import community.leaf.illequipped.PrefixedMessages;
 import community.leaf.illequipped.Status;
 import community.leaf.illequipped.events.EquipExploitPunishEvent;
 import net.md_5.bungee.api.ChatColor;
@@ -108,9 +109,9 @@ public class EquipCounterListener implements Listener
             if (!counter.hasAny(Status.PUNISHED) && plugin.config().getOrDefault(Config.NOTIFY_STAFF_IF_PUNISHED))
             {
                 plugin.getLogger().info("Punishing " +  player.getName() + " for exploiting equips.");
-    
+                
                 BaseComponent[] message =
-                    plugin.prefixed()
+                    PrefixedMessages.warning()
                         .event(new HoverEvent(
                             HoverEvent.Action.SHOW_TEXT,
                             new ComponentBuilder().append("Equipped armor " + total + " times.").create()
@@ -122,8 +123,7 @@ public class EquipCounterListener implements Listener
                         .underlined(false).append(" players")
                     .create();
                 
-                plugin.getServer().getOnlinePlayers().stream()
-                    .filter(p -> p.hasPermission(IllEquippedPlugin.NOTIFICATION_PERMISSION))
+                plugin.permissions().notifications().allPlayersWithPermission()
                     .forEach(p -> p.spigot().sendMessage(message));
                 
                 plugin.getServer().getConsoleSender().spigot().sendMessage(message);
