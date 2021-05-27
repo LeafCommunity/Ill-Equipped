@@ -14,13 +14,28 @@ public class PrefixedMessages
 {
     private PrefixedMessages() {}
     
-    public static ComponentBuilder warning()
+    public static ComponentBuilder colors(ChatColor main, ChatColor accent)
     {
         return new ComponentBuilder()
-            .color(ChatColor.RED).append("Ill")
-            .color(ChatColor.DARK_RED).append("-")
-            .color(ChatColor.RED).bold(true).append("Equipped")
-            .color(ChatColor.RED).bold(false).append(": ")
-            .reset();
+            .append("Ill")
+                .color(main).bold(true)
+            .append("-")
+                .color(accent).bold(false)
+            .append("Equipped")
+                .color(main)
+            .append(":")
+                .color(accent)
+            .append(" ")
+                .reset();
+    }
+    
+    public static ComponentBuilder warning()
+    {
+        return colors(ChatColor.RED, ChatColor.DARK_RED);
+    }
+    
+    public static ComponentBuilder info()
+    {
+        return colors(ChatColor.WHITE, ChatColor.GRAY);
     }
 }

@@ -11,6 +11,7 @@ import com.codingforcookies.armorequip.ArmorListener;
 import community.leaf.illequipped.listeners.AuthorListener;
 import community.leaf.illequipped.listeners.EquipCounterListener;
 import community.leaf.tasks.bukkit.BukkitTaskSource;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -60,6 +61,15 @@ public class IllEquippedPlugin extends JavaPlugin implements BukkitTaskSource
         plugins.registerEvents(new EquipCounterListener(this), this);
         
         sync().every(1).ticks().forever().run(equips::tick);
+        
+        IllEquippedCommand executor = new IllEquippedCommand(this);
+        @NullOr PluginCommand command = getCommand("ill-equipped");
+        
+        if (command != null)
+        {
+            command.setExecutor(executor);
+            command.setTabCompleter(executor);
+        }
     }
     
     private static <T> T initialized(@NullOr T thing, String name)

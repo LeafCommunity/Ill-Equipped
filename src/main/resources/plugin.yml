@@ -14,3 +14,8 @@ permissions:
       ill-equipped.notify: true
   ill-equipped.notify:
     default: op
+
+commands:
+  ill-equipped:
+    aliases: [illequipped]
+    permission: ill-equipped.manage
