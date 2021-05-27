@@ -169,6 +169,19 @@
                             <exclude>pl.tlinkowski.annotation:pl.tlinkowski.annotation.basic</exclude>
                         </excludes>
                     </artifactSet>
+                    <filters>
+                        <!-- Only include necessary parts of ArmorEquipEvent -->
+                        <filter>
+                            <artifact>com.github.Arnuh:ArmorEquipEvent</artifact>
+                            <excludes>
+                                <exclude>config.yml</exclude>
+                                <exclude>plugin.yml</exclude>
+                                <exclude>META-INF/MANIFEST.MF</exclude>
+                                <exclude>com/codingforcookies/armorequip/DispenserArmorListener.class</exclude>
+                                <exclude>com/codingforcookies/armorequip/Main.class</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                 </configuration>
             </plugin>
             <!-- Add license headers -->
