@@ -40,7 +40,7 @@ public class PermissionResolver
             this.permissionNode = String.join(".", PREFIX, permission);
         }
         
-        public String permissionNode() { return permissionNode; }
+        public String node() { return permissionNode; }
         
         public boolean allows(Permissible permissible)
         {
@@ -48,7 +48,7 @@ public class PermissionResolver
                 || (permissible instanceof Player && plugin.authors().contains(((Player) permissible).getUniqueId()));
         }
         
-        public List<? extends Player> allPlayersWithPermission()
+        public List<? extends Player> onlinePlayersWithPermission()
         {
             return plugin.getServer().getOnlinePlayers().stream().filter(this::allows).collect(Collectors.toList());
         }

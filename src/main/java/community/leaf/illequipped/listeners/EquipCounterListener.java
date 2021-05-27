@@ -123,7 +123,7 @@ public class EquipCounterListener implements Listener
                         .underlined(false).append(" players")
                     .create();
                 
-                plugin.permissions().notifications().allPlayersWithPermission()
+                plugin.permissions().notifications().onlinePlayersWithPermission()
                     .forEach(p -> p.spigot().sendMessage(message));
                 
                 plugin.getServer().getConsoleSender().spigot().sendMessage(message);

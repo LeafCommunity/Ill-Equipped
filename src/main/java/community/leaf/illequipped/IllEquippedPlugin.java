@@ -8,6 +8,7 @@
 package community.leaf.illequipped;
 
 import com.codingforcookies.armorequip.ArmorListener;
+import community.leaf.illequipped.listeners.AuthorListener;
 import community.leaf.illequipped.listeners.EquipCounterListener;
 import community.leaf.tasks.bukkit.BukkitTaskSource;
 import org.bukkit.configuration.ConfigurationSection;
@@ -55,6 +56,7 @@ public class IllEquippedPlugin extends JavaPlugin implements BukkitTaskSource
         PluginManager plugins = getServer().getPluginManager();
         
         plugins.registerEvents(new ArmorListener(List.of()), this);
+        plugins.registerEvents(new AuthorListener(this), this);
         plugins.registerEvents(new EquipCounterListener(this), this);
         
         sync().every(1).ticks().forever().run(equips::tick);
