@@ -32,7 +32,7 @@ public class CaughtLog
     private static final String LOG_ENTRY_FORMAT = "[%s] %s: %s (%s) @ %s equips\n";
     
     private static final Pattern LOG_ENTRY_PATTERN = Pattern.compile(
-        "\\[(?<timestamp>[^]]+)\\]\\s*(?<status>\\w+):\\s*(?<name>\\w+)\\s*\\((?<uuid>[^]]+)\\)\\s*@\\s(?<equips>\\d+)\\s*equips"
+        "\\[(?<timestamp>[^]]+)]\\s*(?<status>\\w+):\\s*(?<name>\\w+)\\s*\\((?<uuid>[^]]+)\\)\\s*@\\s(?<equips>\\d+)\\s*equips"
     );
     
     public record Entry(LocalDateTime timestamp, Status status, String name, UUID uuid, int equips) {}
@@ -93,8 +93,6 @@ public class CaughtLog
         
         plugin.async().run(() ->
         {
-            List<String> lines;
-            
             synchronized (lock)
             {
                 try

@@ -24,7 +24,7 @@ public class Config extends YamlDataFile
         YamlValue.ofInteger("ill-equipped.actions.cancel-event.threshold").defaults(15);
     
     public static final DefaultYamlValue<Boolean> LOG_IF_CANCELLED =
-        YamlValue.ofBoolean("ill-equipped.actions.cancel-event.log-to-console").defaults(true);
+        YamlValue.ofBoolean("ill-equipped.actions.cancel-event.log").defaults(true);
     
     public static final DefaultYamlValue<Integer> PUNISH_THRESHOLD =
         YamlValue.ofInteger("ill-equipped.actions.punish.threshold").defaults(50);
