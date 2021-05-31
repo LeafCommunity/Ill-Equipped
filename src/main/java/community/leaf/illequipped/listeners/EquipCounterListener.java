@@ -95,9 +95,14 @@ public class EquipCounterListener implements Listener
         
         if (total > plugin.config().getOrDefault(Config.CANCEL_THRESHOLD))
         {
-            if (!counter.hasAny(Status.CANCELLED) && plugin.config().getOrDefault(Config.LOG_IF_CANCELLED))
+            if (!counter.hasAny(Status.CANCELLED))
             {
                 plugin.getLogger().info(player.getName() + " equipped too fast.");
+                
+                if (plugin.config().getOrDefault(Config.LOG_IF_CANCELLED))
+                {
+                    plugin.caughtLog().log(Status.CANCELLED, player);
+                }
             }
             
             event.setCancelled(true);
@@ -106,27 +111,32 @@ public class EquipCounterListener implements Listener
         
         if (total > plugin.config().getOrDefault(Config.PUNISH_THRESHOLD))
         {
-            if (!counter.hasAny(Status.PUNISHED) && plugin.config().getOrDefault(Config.NOTIFY_STAFF_IF_PUNISHED))
+            if (!counter.hasAny(Status.PUNISHED))
             {
-                plugin.getLogger().info("Punishing " +  player.getName() + " for exploiting equips.");
+                plugin.caughtLog().log(Status.PUNISHED, player);
                 
-                BaseComponent[] message =
-                    PrefixedMessages.warning()
-                        .event(new HoverEvent(
-                            HoverEvent.Action.SHOW_TEXT,
-                            new ComponentBuilder().append("Equipped armor " + total + " times.").create()
-                        ))
-                        .append("Detected ")
-                        .color(ChatColor.RED).append(player.getName())
-                        .color(ChatColor.WHITE).append(" attempting to ")
-                        .underlined(true).append("crash")
-                        .underlined(false).append(" players")
-                    .create();
-                
-                plugin.permissions().notifications().onlinePlayersWithPermission()
-                    .forEach(p -> p.spigot().sendMessage(message));
-                
-                plugin.getServer().getConsoleSender().spigot().sendMessage(message);
+                if (plugin.config().getOrDefault(Config.NOTIFY_STAFF_IF_PUNISHED))
+                {
+                    plugin.getLogger().info("Punishing " +  player.getName() + " for exploiting equips.");
+                    
+                    BaseComponent[] message =
+                        PrefixedMessages.warning()
+                            .event(new HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT,
+                                new ComponentBuilder().append("Equipped armor " + total + " times.").create()
+                            ))
+                            .append("Detected ")
+                            .color(ChatColor.RED).append(player.getName())
+                            .color(ChatColor.WHITE).append(" attempting to ")
+                            .underlined(true).append("crash")
+                            .underlined(false).append(" players")
+                        .create();
+                    
+                    plugin.permissions().notifications().onlinePlayersWithPermission()
+                        .forEach(p -> p.spigot().sendMessage(message));
+                    
+                    plugin.getServer().getConsoleSender().spigot().sendMessage(message);
+                }
             }
             
             counter.currentTick().designate(Status.PUNISHED);

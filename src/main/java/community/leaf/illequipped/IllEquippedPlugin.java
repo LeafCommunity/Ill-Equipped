@@ -42,6 +42,7 @@ public class IllEquippedPlugin extends JavaPlugin implements BukkitTaskSource
     private @NullOr Config config;
     private @NullOr Authors authors;
     private @NullOr EquipData equips;
+    private @NullOr CaughtLog caughtLog;
     private @NullOr PermissionResolver permissions;
     
     @Override
@@ -52,6 +53,7 @@ public class IllEquippedPlugin extends JavaPlugin implements BukkitTaskSource
         this.config = new Config(this);
         this.authors = new Authors().load();
         this.equips = new EquipData(this);
+        this.caughtLog = new CaughtLog(this);
         this.permissions = new PermissionResolver(this);
         
         PluginManager plugins = getServer().getPluginManager();
@@ -107,6 +109,11 @@ public class IllEquippedPlugin extends JavaPlugin implements BukkitTaskSource
     public EquipData equips()
     {
         return initialized(equips, "equips");
+    }
+    
+    public CaughtLog caughtLog()
+    {
+        return initialized(caughtLog, "caughtLog");
     }
     
     public PermissionResolver permissions()
