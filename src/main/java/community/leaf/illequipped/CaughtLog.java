@@ -35,6 +35,8 @@ public class CaughtLog
         "\\[(?<timestamp>[^]]+)\\]\\s*(?<status>\\w+):\\s*(?<name>\\w+)\\s*\\((?<uuid>[^]]+)\\)\\s*@\\s(?<equips>\\d+)\\s*equips"
     );
     
+    public record Entry(LocalDateTime timestamp, Status status, String name, UUID uuid, int equips) {}
+    
     private final AtomicReference<@NullOr List<Entry>> cachedEntries = new AtomicReference<>();
     private final Deque<String> pendingLines = new ConcurrentLinkedDeque<>();
     private final Object lock = new Object();
@@ -116,7 +118,7 @@ public class CaughtLog
                             Status status = Status.valueOf(matcher.group("status"));
                             String name = matcher.group("name");
                             UUID uuid = UUID.fromString(matcher.group("uuid"));
-                            long equips = Long.parseLong(matcher.group("equips"));
+                            int equips = Integer.parseInt(matcher.group("equips"));
                             
                             updatedEntries.add(new Entry(timestamp, status, name, uuid, equips));
                         }
@@ -135,6 +137,4 @@ public class CaughtLog
             }
         });
     }
-    
-    public record Entry(LocalDateTime timestamp, Status status, String name, UUID uuid, long equips) {}
 }

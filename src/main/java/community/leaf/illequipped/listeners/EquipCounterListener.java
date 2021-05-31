@@ -126,10 +126,14 @@ public class EquipCounterListener implements Listener
                                 new ComponentBuilder().append("Equipped armor " + total + " times.").create()
                             ))
                             .append("Detected ")
-                            .color(ChatColor.RED).append(player.getName())
-                            .color(ChatColor.WHITE).append(" attempting to ")
-                            .underlined(true).append("crash")
-                            .underlined(false).append(" players")
+                            .append(player.getName())
+                                .color(ChatColor.RED)
+                            .append(" attempting to ")
+                                .color(ChatColor.WHITE)
+                            .append("crash")
+                                .underlined(true)
+                            .append(" players")
+                                .underlined(false)
                         .create();
                     
                     plugin.permissions().notifications().onlinePlayersWithPermission()
