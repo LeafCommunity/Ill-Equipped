@@ -57,7 +57,7 @@ public class IllEquippedCommand implements CommandExecutor, TabExecutor
     {
         String choice = (args.length > 0) ? args[0].toLowerCase(Locale.ROOT) : "?";
         
-        if (USAGE.contains(choice)) { handleUsage(sender); }
+        if (USAGE.contains(choice)) { handleUsage(sender, label); }
         else if (RELOAD.contains(choice)) { handleReload(sender); }
         else if (LOGS.contains(choice)) { handleLogsPage(sender, label, args); }
         else if (TEST_PUNISHMENT.contains(choice)) { handleTestPunishment(sender, label, args); }
@@ -106,7 +106,7 @@ public class IllEquippedCommand implements CommandExecutor, TabExecutor
         return suggestions;
     }
     
-    private void handleUsage(CommandSender sender)
+    private void handleUsage(CommandSender sender, String label)
     {
         ComponentBuilder authors = new ComponentBuilder().append("Plugin Authors:");
         
@@ -127,6 +127,62 @@ public class IllEquippedCommand implements CommandExecutor, TabExecutor
                 .append(" Usage:")
                     .color(ChatColor.GRAY).italic(false)
                 .append("\n")
+                    .reset()
+                .append("/" + label + " ")
+                    .color(ChatColor.DARK_GRAY)
+                    .event(new HoverEvent(
+                        HoverEvent.Action.SHOW_TEXT,
+                        new ComponentBuilder()
+                            .append("Reload the config.\n")
+                            .append("Click to run.")
+                                .color(ChatColor.GRAY)
+                                .italic(true)
+                            .create()
+                    ))
+                    .event(new ClickEvent(
+                        ClickEvent.Action.RUN_COMMAND,
+                        "/" + label + " reload"
+                    ))
+                .append("reload")
+                    .color(ChatColor.WHITE)
+                .append("\n")
+                    .reset()
+                .append("/" + label + " ")
+                    .color(ChatColor.DARK_GRAY)
+                    .event(new HoverEvent(
+                        HoverEvent.Action.SHOW_TEXT,
+                        new ComponentBuilder()
+                            .append("View the logs.\n")
+                            .append("Click to run.")
+                                .color(ChatColor.GRAY)
+                                .italic(true)
+                            .create()
+                    ))
+                    .event(new ClickEvent(
+                        ClickEvent.Action.RUN_COMMAND,
+                        "/" + label + " logs"
+                    ))
+                .append("logs")
+                    .color(ChatColor.WHITE)
+                .append("\n")
+                    .reset()
+                .append("/" + label + " ")
+                    .color(ChatColor.DARK_GRAY)
+                    .event(new HoverEvent(
+                        HoverEvent.Action.SHOW_TEXT,
+                        new ComponentBuilder()
+                            .append("Test the configured punishments on yourself.\n")
+                            .append("Click to run.")
+                                .color(ChatColor.GRAY)
+                                .italic(true)
+                            .create()
+                    ))
+                    .event(new ClickEvent(
+                        ClickEvent.Action.RUN_COMMAND,
+                        "/" + label + " test-punishment"
+                    ))
+                .append("test-punishment")
+                    .color(ChatColor.WHITE)
                 .create();
         
         sender.spigot().sendMessage(usage);
