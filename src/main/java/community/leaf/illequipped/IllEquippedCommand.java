@@ -82,6 +82,14 @@ public class IllEquippedCommand implements CommandExecutor, TabExecutor
                     .underlined(false).italic(true).color(ChatColor.DARK_GRAY)
                 .append("Click ")
                     .italic(false).color(ChatColor.BLUE)
+                    .event(new HoverEvent(
+                        HoverEvent.Action.SHOW_TEXT,
+                        new ComponentBuilder().append("Click to view usage.").create()
+                    ))
+                    .event(new ClickEvent(
+                        ClickEvent.Action.RUN_COMMAND,
+                        "/" + label + " help"
+                    ))
                 .append("here")
                     .underlined(true)
                 .append(" for usage.")

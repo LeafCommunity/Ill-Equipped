@@ -52,8 +52,6 @@ public class CaughtLog
     
     public void log(Status status, Player player)
     {
-        if (status == Status.CANCELLED && !plugin.config().getOrDefault(Config.LOG_IF_CANCELLED)) { return; }
-        
         EquipData.PlayerCounter counter = plugin.equips().counter(player);
         
         pendingLines.add(String.format(

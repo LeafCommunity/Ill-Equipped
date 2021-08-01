@@ -121,21 +121,7 @@ public class IllEquippedPlugin extends JavaPlugin implements BukkitTaskSource
         return initialized(permissions, "permissions");
     }
     
-    public static class Author
-    {
-        private final String name;
-        private final UUID uuid;
-        
-        private Author(String name, UUID uuid)
-        {
-            this.name = name;
-            this.uuid = uuid;
-        }
-    
-        public String name() { return name; }
-    
-        public UUID uuid() { return uuid; }
-    }
+    public record Author(String name, UUID uuid) {}
     
     public class Authors
     {
